@@ -1,0 +1,191 @@
+﻿@model _Surveys.Models.FillOutSurvey
+
+@{
+    ViewBag.Title = "Fill Out Survey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
+        padding: 20px;
+    }
+
+    fieldset {
+        border: none;
+        padding: 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    legend {
+        font-size: 1.0em;
+        position: absolute;
+        left: 120px;
+        top: 123px;
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="tel"] {
+        width: 30%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        border: 2px solid lightblue;
+    }
+
+    .radio-group {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+        .radio-group label {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        /* Style only the favorite food radios as square */
+        .radio-group input[type="radio"] {
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            border: 2px solid #007bff;
+            border-radius: 2px; /* small radius to look like a square */
+            cursor: pointer;
+            position: relative;
+        }
+
+            .radio-group input[type="radio"]:checked::before {
+                content: "";
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                background-color: #007bff;
+                top: 3px;
+                left: 3px;
+            }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+        table th,
+        table td {
+            text-align: center;
+            padding: 10px;
+            border: 2px solid lightblue;
+        }
+
+        table th {
+            background-color: gray;
+            color: white;
+        }
+
+        
+        table input[type="radio"] {
+            transform: scale(2);
+            margin: 5px;
+        }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 20px auto 0 auto;
+        display: block;
+    }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    .Details {
+        margin-left: 213px;
+        margin-top: 12px;
+    }
+</style>
+
+<div class="survey-container">
+    <form asp-action="FillOutSurvey" method="post">
+        <fieldset>
+            <legend>Personal Details :</legend>
+            <div class="Details">
+                <label>Full Names</label>
+                <input asp-for="FullNames" class="form-control" />
+                <span asp-validation-for="FullNames" class="text-danger"></span>
+
+                <label>Email</label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+
+                <label>Date of Birth</label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+                <label>Contact Number</label>
+                <input asp-for="ContactNumber" class="form-control" />
+                <span asp-validation-for="ContactNumber" class="text-danger"></span>
+            </div>
+        </fieldset>
+
+        <div class="radio-group">
+            <label>What is your favorite food?</label><br />
+            <label><input type="radio" asp-for="FavoriteFood" value="Pizza" /> Pizza</label>
+            <label><input type="radio" asp-for="FavoriteFood" value="Pasta" /> Pasta</label>
+            <label><input type="radio" asp-for="FavoriteFood" value="Pap and Wors" /> Pap and Wors</label>
+            <label><input type="radio" asp-for="FavoriteFood" value="Other" /> Other</label>
+        </div>
+
+        <br />
+
+        <p><strong>Please rate your level of agreement on a scale from 1 to 5, with 1 being "Strongly agree" and 5 being "Strongly disagree":</strong></p>
+
+        <table>
+            <tr>
+                <th></th>
+                <th>Strongly Agree</th>
+                <th>Agree</th>
+                <th>Neutral</th>
+                <th>Disagree</th>
+                <th>Strongly Disagree</th>
+            </tr>
+
+            @foreach (var item in new[] {
+            new { Text = "I like to watch movies", Name = "WatchMovies" },
+            new { Text = "I like to listen to radio", Name = "ListenToRadio" },
+            new { Text = "I like to eat out", Name = "EatOut" },
+            new { Text = "I like to watch TV", Name = "WatchTV" }
+            })
+            {
+                <tr>
+                    <td>@item.Text</td>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <td>
+                            <input type="radio" name="@item.Name" value="@i" required />
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+
+        <button type="submit">SUBMIT</button>
+    </form>
+</div>

@@ -1,0 +1,21 @@
+body {
+    background-color: white !important;
+    margin-bottom: 60px;
+}
+
+.navbar {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+footer {
+    border-top: none !important;
+    background-color: white;
+}
+
+/* NEW: Highlight active nav link */
+.active-link {
+    color: #007bff !important; /* Bootstrap blue */
+    font-weight: bold;
+    text-decoration: underline;
+}
